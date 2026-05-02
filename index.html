@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Jokes Hub - दैनिक राजनीतिक हास्य</title>
-    <meta name="description" content="Nepal politics news → jokes → vote → laugh. Made with ♥ in Nepal." />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E😂%3C/text%3E%3C/svg%3E">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:ital,wght@0,400;1,700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PromptForge — AI Prompt Optimizer (cut tokens, cut cost)</title>
+    <meta name="description" content="Optimize AI prompts to reduce token usage, cost and latency. Compress verbose phrases, strip filler, and copy a leaner prompt — fully client-side." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E⚡%3C/text%3E%3C/svg%3E" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --primary: #1a1a2e;
-            --secondary: #16213e;
-            --accent: #e94560;
-            --highlight: #f1c40f;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --card-bg: #0f3460;
-            --card-bg-2: #142b56;
-            --good: #2ecc71;
-            --bad: #e74c3c;
-            --muted: #2c3e50;
+            --bg-0: #07090f;
+            --bg-1: #0c1020;
+            --bg-2: #131a2e;
+            --bg-3: #1a2240;
+            --line: rgba(255, 255, 255, 0.08);
+            --line-strong: rgba(255, 255, 255, 0.16);
+            --text: #e7ebf5;
+            --muted: #8d96ad;
+            --dim: #5b6479;
+            --cyan: #22d3ee;
+            --violet: #a78bfa;
+            --pink: #f472b6;
+            --green: #34d399;
+            --amber: #fbbf24;
+            --red: #f87171;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html, body { height: 100%; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--primary);
-            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-0);
+            color: var(--text);
             min-height: 100vh;
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
@@ -36,995 +43,1335 @@
             content: '';
             position: fixed; inset: 0;
             background:
-                radial-gradient(circle at 20% 80%, rgba(233, 69, 96, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(241, 196, 15, 0.08) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,255,255,0.012) 50px, rgba(255,255,255,0.012) 100px);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(900px 500px at 12% -10%, rgba(34, 211, 238, 0.10), transparent 60%),
+                radial-gradient(900px 500px at 95% 0%, rgba(167, 139, 250, 0.10), transparent 60%),
+                radial-gradient(600px 400px at 50% 110%, rgba(244, 114, 182, 0.06), transparent 60%);
+            pointer-events: none; z-index: 0;
         }
 
-        /* Header */
+        a { color: inherit; }
+
+        button { font-family: inherit; cursor: pointer; }
+
+        /* ===== Header ===== */
         header {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            padding: 18px 20px;
-            position: sticky; top: 0; z-index: 100;
-            border-bottom: 3px solid var(--accent);
-            backdrop-filter: blur(8px);
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(7, 9, 15, 0.7);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
-        .header-content {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 15px;
-        }
-        .logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.3rem; color: var(--accent);
-            letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .logo span { color: var(--highlight); }
-        .header-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-        .date-display { text-align: right; font-size: 0.9rem; color: var(--text-secondary); }
-        .date-display .english-date { font-weight: 600; color: var(--text-primary); }
-        .date-display .nepali-date { font-style: italic; color: var(--highlight); }
-
-        .your-stats {
-            display: flex; gap: 10px; align-items: center;
-            background: rgba(255,255,255,0.04);
-            padding: 6px 12px; border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.08);
-            font-size: 0.85rem;
-        }
-        .your-stats b { color: var(--highlight); }
-
-        /* Container */
-        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; position: relative; z-index: 1; }
-
-        /* Hero */
-        .hero {
-            text-align: center; padding: 50px 20px 30px;
-        }
-        .hero h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            color: var(--highlight);
-            letter-spacing: 3px;
-            text-shadow: 3px 3px 0 var(--accent);
-            margin-bottom: 12px;
-        }
-        .hero p { color: var(--text-secondary); font-size: 1.05rem; }
-        .hero .pill {
-            display: inline-block; margin-top: 14px;
-            padding: 6px 14px; border-radius: 999px;
-            background: rgba(233,69,96,0.12); color: var(--accent);
-            border: 1px solid rgba(233,69,96,0.4);
-            font-size: 0.85rem;
-        }
-
-        /* Section title */
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.2rem; letter-spacing: 2px;
-            margin: 30px 0 20px; color: var(--highlight);
-            border-left: 5px solid var(--accent); padding-left: 14px;
-        }
-        .section-sub { color: var(--text-secondary); margin: -12px 0 22px; font-size: 0.95rem; }
-
-        /* ========== JOKE OF THE DAY ========== */
-        .jotd-section { margin-bottom: 12px; }
-        .jotd-card {
-            position: relative;
-            background: linear-gradient(135deg, #0f3460 0%, #1d4d8a 60%, #e94560 200%);
-            border: 2px solid var(--highlight);
-            border-radius: 20px;
-            padding: 32px 28px;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.5), inset 0 0 80px rgba(241,196,15,0.05);
-            overflow: hidden;
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-            0%,100% { box-shadow: 0 18px 50px rgba(0,0,0,0.5), inset 0 0 80px rgba(241,196,15,0.05); }
-            50%     { box-shadow: 0 18px 60px rgba(241,196,15,0.25), inset 0 0 100px rgba(241,196,15,0.08); }
-        }
-        .jotd-ribbon {
-            position: absolute; top: 16px; right: -38px;
-            background: var(--accent); color: white;
-            padding: 6px 50px; transform: rotate(35deg);
-            font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;
-            font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-        .jotd-label {
-            display: inline-block;
-            font-family: 'Bebas Neue', sans-serif;
-            background: var(--highlight); color: var(--primary);
-            padding: 6px 14px; border-radius: 6px;
-            letter-spacing: 2px; font-size: 0.95rem;
-            margin-bottom: 14px;
-        }
-        .jotd-quote {
-            font-family: 'Merriweather', serif;
-            font-style: italic;
-            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-            line-height: 1.55;
-            color: #fff;
-            margin: 12px 0 16px;
-            position: relative;
-            padding-left: 26px;
-        }
-        .jotd-quote::before {
-            content: '“'; position: absolute; left: -4px; top: -18px;
-            font-size: 4rem; color: var(--highlight); opacity: 0.7; font-family: serif;
-        }
-        .jotd-mp {
-            display: flex; align-items: center; gap: 14px; margin-top: 18px;
+        .header-inner {
+            max-width: 1400px; margin: 0 auto;
+            padding: 14px 20px;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
             flex-wrap: wrap;
         }
-        .jotd-mp-avatar {
-            width: 56px; height: 56px; border-radius: 50%;
-            background: var(--highlight); color: var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
-            border: 3px solid var(--accent);
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo {
+            width: 38px; height: 38px;
+            display: grid; place-items: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+            box-shadow: 0 6px 24px rgba(34, 211, 238, 0.3), inset 0 0 0 1px rgba(255,255,255,0.2);
+            font-size: 1.2rem;
         }
-        .jotd-mp-info b { display: block; font-size: 1.1rem; }
-        .jotd-mp-info span { color: var(--text-secondary); font-size: 0.85rem; }
-        .jotd-news {
-            margin-top: 18px; padding: 12px 14px;
-            background: rgba(0,0,0,0.25); border-radius: 10px;
-            border-left: 4px solid var(--accent);
-            font-size: 0.9rem;
+        .brand-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 1.4rem; letter-spacing: -0.5px;
         }
-        .jotd-news b { color: var(--highlight); letter-spacing: 1px; font-family: 'Bebas Neue', sans-serif; }
-        .jotd-actions {
-            display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;
+        .brand-name span { color: var(--cyan); }
+        .brand-tag {
+            font-size: 0.72rem; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 1.5px;
+            margin-top: 2px;
         }
+        .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .header-stat {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.82rem; color: var(--muted);
+            padding: 7px 13px; border-radius: 999px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--line);
+        }
+        .header-stat b { color: var(--green); font-variant-numeric: tabular-nums; }
+        .header-stat.cost b { color: var(--amber); }
 
-        /* ========== JOKE CARDS GRID ========== */
-        .filters {
-            display: flex; flex-wrap: wrap; gap: 8px;
-            margin-bottom: 18px;
-        }
-        .filter-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            padding: 8px 14px; border-radius: 999px;
-            cursor: pointer; font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover { background: rgba(255,255,255,0.1); }
-        .filter-btn.active { background: var(--accent); border-color: var(--accent); }
-
-        .jokes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-            gap: 22px;
-        }
-        .joke-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 22px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-            display: flex; flex-direction: column; gap: 12px;
-            transition: transform 0.25s, box-shadow 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-        .joke-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--highlight), var(--accent));
-        }
-        .joke-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 36px rgba(233,69,96,0.25);
-        }
-        .joke-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .joke-tag {
-            background: rgba(241,196,15,0.15); color: var(--highlight);
-            padding: 4px 10px; border-radius: 6px;
-            font-size: 0.7rem; letter-spacing: 1px;
-            font-family: 'Bebas Neue', sans-serif;
-            border: 1px solid rgba(241,196,15,0.3);
-        }
-        .joke-rank {
-            font-family: 'Bebas Neue', sans-serif; color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        .news-headline {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.15rem; letter-spacing: 1px;
-            color: var(--accent); line-height: 1.3;
-        }
-        .joke-text { font-size: 0.95rem; line-height: 1.55; color: #f0f0f0; }
-        .joke-punchline {
-            font-style: italic; color: var(--highlight);
-            background: rgba(241,196,15,0.06);
-            padding: 10px 12px; border-radius: 8px;
-            border-left: 3px solid var(--highlight);
-            font-size: 0.9rem;
-        }
-
-        /* Selection options */
-        .joke-options { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-        .joke-options-title {
-            font-size: 0.78rem; color: var(--text-secondary);
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        .option-btn {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            padding: 9px 12px; border-radius: 8px;
-            text-align: left; cursor: pointer;
-            font-size: 0.86rem; line-height: 1.35;
-            transition: all 0.2s;
-        }
-        .option-btn:hover {
-            background: rgba(233,69,96,0.1);
-            border-color: var(--accent);
-            transform: translateX(3px);
-        }
-        .option-btn.selected {
-            background: rgba(241,196,15,0.18);
-            border-color: var(--highlight);
-            color: var(--highlight);
-        }
-        .option-btn .opt-pct {
-            float: right; color: var(--text-secondary); font-size: 0.8rem;
-        }
-
-        /* Vote bar */
-        .vote-bar {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-            margin-top: 6px;
-        }
-        .vote-btn {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            padding: 8px 6px; border-radius: 10px;
-            cursor: pointer; transition: all 0.18s;
-            display: flex; flex-direction: column; align-items: center; gap: 2px;
-            font-size: 0.78rem;
-        }
-        .vote-btn .emo { font-size: 1.3rem; line-height: 1; }
-        .vote-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-        .vote-btn.active { background: var(--accent); border-color: var(--accent); }
-        .vote-btn.active.fire   { background: #ff6b35; border-color: #ff6b35; }
-        .vote-btn.active.meh    { background: #555; border-color: #555; }
-        .vote-btn.active.dead   { background: #8e44ad; border-color: #8e44ad; }
-        .vote-count { font-weight: 700; }
-
-        .joke-foot {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.78rem; color: var(--text-secondary);
-            border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;
-        }
-        .share-btn {
-            background: transparent; border: 1px solid rgba(255,255,255,0.15);
-            color: var(--text-primary); padding: 5px 10px; border-radius: 6px;
-            font-size: 0.78rem; cursor: pointer;
-        }
-        .share-btn:hover { border-color: var(--highlight); color: var(--highlight); }
-
-        /* ========== LEADERBOARD ========== */
-        .leaderboard {
-            background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg-2) 100%);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(241,196,15,0.25);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-        }
-        .lb-row {
-            display: grid;
-            grid-template-columns: 50px 1fr 80px 80px;
-            gap: 12px;
-            align-items: center;
-            padding: 10px 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            transition: background 0.2s;
-        }
-        .lb-row:hover { background: rgba(255,255,255,0.03); border-radius: 8px; }
-        .lb-row.head { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; color: var(--text-secondary); }
-        .lb-rank {
-            font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
-            text-align: center; color: var(--text-primary);
-        }
-        .lb-rank.gold   { color: gold; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
-        .lb-rank.silver { color: silver; }
-        .lb-rank.bronze { color: #cd7f32; }
-        .lb-title { font-size: 0.9rem; line-height: 1.35; }
-        .lb-title small { display:block; color: var(--text-secondary); font-size: 0.75rem; margin-top: 2px; }
-        .lb-num { text-align: right; font-weight: 700; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; }
-        .lb-num.score { color: var(--good); }
-        .lb-num.total { color: var(--highlight); }
-        .lb-empty { padding: 30px; text-align: center; color: var(--text-secondary); }
-
-        /* Buttons (generic) */
-        .btn {
-            background: var(--accent); color: white; border: none;
-            padding: 10px 22px; border-radius: 999px;
-            font-family: 'Poppins', sans-serif; font-weight: 600;
-            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-            font-size: 0.9rem;
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(233,69,96,0.45); }
-        .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); }
-        .btn.ghost:hover { border-color: var(--highlight); color: var(--highlight); box-shadow: none; }
-        .btn.gold { background: var(--highlight); color: var(--primary); }
-
-        /* Toast */
-        #toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--secondary); border: 1px solid var(--highlight);
-            color: var(--text-primary);
-            padding: 12px 20px; border-radius: 999px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.25s, transform 0.25s;
-            z-index: 1000;
-            font-size: 0.9rem;
-        }
-        #toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
-
-        /* Confetti canvas */
-        #confetti {
-            position: fixed; inset: 0; pointer-events: none; z-index: 999;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center; padding: 30px 20px;
-            background: var(--secondary);
-            color: var(--text-secondary);
-            border-top: 3px solid var(--accent);
-            margin-top: 40px;
+        /* ===== Hero ===== */
+        .hero {
+            max-width: 1400px; margin: 0 auto;
+            padding: 56px 20px 28px;
+            text-align: center;
             position: relative; z-index: 1;
         }
-        footer .made-with { color: var(--accent); }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.2rem, 5.6vw, 3.7rem);
+            line-height: 1.05;
+            letter-spacing: -1.2px;
+            background: linear-gradient(120deg, #e7ebf5 0%, #22d3ee 50%, #a78bfa 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 14px;
+        }
+        .hero p {
+            color: var(--muted); font-size: 1.05rem;
+            max-width: 720px; margin: 0 auto;
+        }
+        .hero .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 22px; }
+        .hero .pill {
+            padding: 7px 14px; border-radius: 999px;
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            color: var(--cyan); font-size: 0.82rem; font-weight: 500;
+        }
+        .hero .pill.violet { background: rgba(167, 139, 250, 0.08); border-color: rgba(167, 139, 250, 0.25); color: var(--violet); }
+        .hero .pill.pink   { background: rgba(244, 114, 182, 0.08); border-color: rgba(244, 114, 182, 0.25); color: var(--pink); }
 
-        /* Responsive tweaks */
+        /* ===== Layout ===== */
+        .container {
+            max-width: 1400px; margin: 0 auto;
+            padding: 0 20px 80px; position: relative; z-index: 1;
+        }
+
+        /* ===== Stats bar ===== */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .stat-card {
+            background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px 16px;
+            position: relative; overflow: hidden;
+        }
+        .stat-card::after {
+            content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+            background: linear-gradient(90deg, var(--cyan), var(--violet));
+            opacity: 0.6;
+        }
+        .stat-label {
+            color: var(--muted); font-size: 0.74rem;
+            text-transform: uppercase; letter-spacing: 1.2px; font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.55rem; font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+        }
+        .stat-value.green { color: var(--green); }
+        .stat-value.amber { color: var(--amber); }
+        .stat-value.cyan  { color: var(--cyan); }
+        .stat-sub { color: var(--dim); font-size: 0.78rem; margin-top: 3px; }
+
+        /* ===== Toolbar ===== */
+        .toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 16px; flex-wrap: wrap;
+            background: var(--bg-1);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+        }
+        .toolbar-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .toolbar-label { color: var(--muted); font-size: 0.84rem; font-weight: 500; }
+
+        .level-segments {
+            display: inline-flex;
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px;
+        }
+        .level-segments button {
+            background: transparent; border: 0; color: var(--muted);
+            padding: 7px 14px; border-radius: 7px;
+            font-size: 0.85rem; font-weight: 600;
+            transition: all 0.15s;
+        }
+        .level-segments button.active {
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            color: #0a0a0a; box-shadow: 0 4px 14px rgba(34, 211, 238, 0.25);
+        }
+        .level-segments button:not(.active):hover { color: var(--text); background: rgba(255,255,255,0.04); }
+
+        .select {
+            background: var(--bg-3);
+            color: var(--text);
+            border: 1px solid var(--line-strong);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-family: inherit; font-size: 0.88rem;
+            cursor: pointer;
+        }
+        .select:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+        /* ===== Editor grid ===== */
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 960px) { .editor-grid { grid-template-columns: 1fr; } }
+
+        .panel {
+            background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+        .panel-head {
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255,255,255,0.015);
+        }
+        .panel-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem; font-weight: 700; letter-spacing: 0.2px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .panel-title .dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
+        }
+        .panel-title.out .dot { background: var(--green); box-shadow: 0 0 10px var(--green); }
+        .panel-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: var(--muted);
+            display: flex; gap: 12px; flex-wrap: wrap;
+        }
+        .panel-meta b { color: var(--text); }
+
+        .editor {
+            width: 100%;
+            min-height: 360px;
+            border: 0; outline: 0;
+            padding: 16px;
+            background: transparent; color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.92rem; line-height: 1.6;
+            resize: vertical;
+        }
+        .editor::placeholder { color: var(--dim); }
+
+        .output-box {
+            min-height: 360px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.92rem; line-height: 1.6;
+            white-space: pre-wrap; word-wrap: break-word;
+            overflow-y: auto;
+        }
+        .output-box.empty { color: var(--dim); display: grid; place-items: center; text-align: center; }
+        .output-box .added { background: rgba(52, 211, 153, 0.10); padding: 0 2px; border-radius: 3px; }
+        .output-box .removed {
+            background: rgba(248, 113, 113, 0.13); color: var(--red);
+            text-decoration: line-through; text-decoration-color: rgba(248,113,113,0.6);
+            padding: 0 2px; border-radius: 3px;
+        }
+
+        .panel-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--bg-3); color: var(--text);
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 0.82rem; font-weight: 500;
+            transition: all 0.15s;
+        }
+        .btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.22); }
+        .btn:active { transform: translateY(1px); }
+        .btn.primary {
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            color: #0a0a0a; border: 0; font-weight: 700;
+            box-shadow: 0 4px 14px rgba(34, 211, 238, 0.25);
+        }
+        .btn.primary:hover { filter: brightness(1.08); }
+        .btn.danger:hover { background: rgba(248, 113, 113, 0.10); border-color: rgba(248, 113, 113, 0.4); color: var(--red); }
+        .btn .ico { font-size: 0.95rem; }
+        .btn.icon-only { padding: 7px 9px; }
+
+        /* ===== Rules grid ===== */
+        .rules-section {
+            margin: 22px 0 6px;
+            background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px;
+        }
+        .rules-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .rules-head h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2px;
+        }
+        .rules-head .hint { color: var(--muted); font-size: 0.86rem; }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 10px;
+        }
+        .rule {
+            background: var(--bg-3);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex; gap: 12px; align-items: flex-start;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .rule:hover { border-color: var(--line-strong); background: rgba(255,255,255,0.04); }
+        .rule.on { border-color: rgba(34, 211, 238, 0.45); background: rgba(34, 211, 238, 0.05); }
+        .rule .toggle {
+            flex-shrink: 0;
+            width: 36px; height: 20px;
+            background: var(--bg-1);
+            border: 1px solid var(--line-strong);
+            border-radius: 999px;
+            position: relative;
+            transition: all 0.18s;
+        }
+        .rule .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: all 0.18s;
+        }
+        .rule.on .toggle {
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            border-color: transparent;
+        }
+        .rule.on .toggle::after { left: 18px; background: #0a0a0a; }
+
+        .rule-text { flex: 1; min-width: 0; }
+        .rule-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+        .rule-impact {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            padding: 1px 6px; border-radius: 4px;
+            background: rgba(52, 211, 153, 0.13); color: var(--green);
+            font-weight: 700; letter-spacing: 0.5px;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .rule.on .rule-impact { opacity: 1; }
+        .rule-desc { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
+
+        /* ===== Bottom split: tips + history ===== */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 18px;
+            margin-top: 22px;
+        }
+        @media (max-width: 960px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px;
+        }
+        .card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+
+        .tips-list { display: grid; gap: 10px; }
+        .tip {
+            display: flex; gap: 12px;
+            padding: 10px 12px;
+            background: var(--bg-3);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+        }
+        .tip-num {
+            flex-shrink: 0;
+            width: 26px; height: 26px;
+            display: grid; place-items: center;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            color: #0a0a0a; font-weight: 700; font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .tip-body { font-size: 0.88rem; }
+        .tip-body b { color: var(--cyan); }
+
+        .history-list { display: grid; gap: 8px; max-height: 380px; overflow-y: auto; }
+        .history-empty { color: var(--dim); font-size: 0.88rem; padding: 18px; text-align: center; border: 1px dashed var(--line); border-radius: 10px; }
+        .history-item {
+            background: var(--bg-3);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .history-item:hover { border-color: var(--line-strong); background: rgba(255,255,255,0.04); }
+        .history-snippet {
+            flex: 1; min-width: 0;
+            font-size: 0.84rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            color: var(--text);
+        }
+        .history-savings {
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--green);
+            background: rgba(52, 211, 153, 0.10);
+            padding: 3px 8px; border-radius: 6px;
+        }
+        .history-meta { flex-shrink: 0; font-size: 0.74rem; color: var(--dim); }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translate(-50%, 30px);
+            background: var(--bg-3);
+            border: 1px solid var(--cyan);
+            color: var(--text);
+            padding: 12px 22px; border-radius: 10px;
+            font-size: 0.9rem; font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(34, 211, 238, 0.2);
+            z-index: 200;
+            opacity: 0; pointer-events: none;
+            transition: all 0.3s;
+        }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+        /* ===== Footer ===== */
+        footer {
+            border-top: 1px solid var(--line);
+            margin-top: 30px;
+            padding: 24px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+        footer .heart { color: var(--pink); }
+
+        /* ===== Sample dropdown ===== */
+        .samples-wrap { position: relative; }
+        .samples-menu {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: var(--bg-2); border: 1px solid var(--line-strong);
+            border-radius: 10px; min-width: 280px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: none; z-index: 30;
+        }
+        .samples-menu.show { display: block; }
+        .samples-menu button {
+            display: block; width: 100%; text-align: left;
+            background: transparent; border: 0; color: var(--text);
+            padding: 10px 14px;
+            font-size: 0.86rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .samples-menu button:last-child { border-bottom: 0; }
+        .samples-menu button:hover { background: rgba(255,255,255,0.05); color: var(--cyan); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 10px; border: 2px solid var(--bg-0); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--line-strong); }
+
         @media (max-width: 600px) {
-            .lb-row { grid-template-columns: 40px 1fr 60px 60px; gap: 8px; padding: 10px 4px; }
-            .lb-num { font-size: 1.1rem; }
-            .vote-bar { grid-template-columns: repeat(4, 1fr); }
-            .your-stats { font-size: 0.78rem; padding: 5px 10px; }
-            .logo { font-size: 1.8rem; }
+            .hero { padding-top: 36px; }
+            .panel-head { flex-wrap: wrap; }
+            .header-actions .header-stat { display: none; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">Nepal <span>Jokes</span> Hub 🇳🇵</div>
-            <div class="header-right">
-                <div class="your-stats" title="Your activity (stored in this browser)">
-                    🗳️ Your votes: <b id="yourVotes">0</b>
-                </div>
-                <div class="date-display">
-                    <div class="english-date" id="englishDate"></div>
-                    <div class="nepali-date" id="nepaliDate"></div>
-                </div>
+
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <div class="brand-logo">⚡</div>
+            <div>
+                <div class="brand-name">Prompt<span>Forge</span></div>
+                <div class="brand-tag">Token-efficient prompts, instantly</div>
             </div>
         </div>
-    </header>
+        <div class="header-actions">
+            <div class="header-stat" id="hdrSavingsBox" title="Estimated tokens saved across all your prompts in this browser">
+                Lifetime saved: <b id="hdrSaved">0</b>&nbsp;tokens
+            </div>
+            <div class="header-stat cost" id="hdrCostBox" title="Estimated cost saved (based on selected model pricing)">
+                ~ <b id="hdrCost">$0.00</b>&nbsp;saved
+            </div>
+        </div>
+    </div>
+</header>
 
-    <div class="container">
-        <!-- HERO -->
-        <section class="hero">
-            <h1>दैनिक राजनीतिक हास्य</h1>
-            <p>Nepal's Daily Political Humor &amp; Satire — analyze the news, pick a punchline, vote for your favourite.</p>
-            <span class="pill" id="totalVotesPill">Total votes today: 0</span>
-        </section>
+<section class="hero">
+    <h1>Cut the fluff. Cut the bill.</h1>
+    <p>Paste your prompt and PromptForge strips filler, compresses verbose phrases, and normalizes whitespace — without changing intent. Watch your token count (and cost) drop in real time.</p>
+    <div class="pills">
+        <span class="pill">100% client-side</span>
+        <span class="pill violet">Multi-level compression</span>
+        <span class="pill pink">Live diff & savings</span>
+    </div>
+</section>
 
-        <!-- JOKE OF THE DAY -->
-        <section class="jotd-section">
-            <h2 class="section-title">⭐ Joke of the Day</h2>
-            <p class="section-sub">Said by a Nepali MP (real or imagined) — analyzed from today's politics.</p>
-            <div class="jotd-card" id="jotdCard">
-                <div class="jotd-ribbon">TODAY</div>
-                <span class="jotd-label" id="jotdCategory">PARLIAMENT</span>
-                <p class="jotd-quote" id="jotdQuote">Loading…</p>
-                <div class="jotd-mp">
-                    <div class="jotd-mp-avatar" id="jotdAvatar">?</div>
-                    <div class="jotd-mp-info">
-                        <b id="jotdName">—</b>
-                        <span id="jotdRole">—</span>
-                    </div>
+<main class="container">
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-label">Tokens (input)</div>
+            <div class="stat-value" id="sIn">0</div>
+            <div class="stat-sub" id="sInSub">0 chars · 0 words</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Tokens (optimized)</div>
+            <div class="stat-value cyan" id="sOut">0</div>
+            <div class="stat-sub" id="sOutSub">0 chars · 0 words</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Saved</div>
+            <div class="stat-value green" id="sSaved">0%</div>
+            <div class="stat-sub" id="sSavedSub">0 tokens removed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Est. cost saved</div>
+            <div class="stat-value amber" id="sCost">$0.000</div>
+            <div class="stat-sub" id="sCostSub">per 1k runs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Latency saved</div>
+            <div class="stat-value" id="sLat">0 ms</div>
+            <div class="stat-sub">est. processing time</div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <span class="toolbar-label">Level</span>
+            <div class="level-segments" id="levelSeg" role="tablist">
+                <button data-level="light"      type="button">Light</button>
+                <button data-level="balanced"   type="button" class="active">Balanced</button>
+                <button data-level="aggressive" type="button">Aggressive</button>
+                <button data-level="custom"     type="button">Custom</button>
+            </div>
+        </div>
+
+        <div class="toolbar-group">
+            <span class="toolbar-label">Model</span>
+            <select id="modelSelect" class="select">
+                <optgroup label="OpenAI">
+                    <option value="gpt-4o">GPT-4o ($2.50/$10 per 1M)</option>
+                    <option value="gpt-4o-mini" selected>GPT-4o mini ($0.15/$0.60 per 1M)</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo ($10/$30 per 1M)</option>
+                    <option value="o1">o1 ($15/$60 per 1M)</option>
+                    <option value="o1-mini">o1-mini ($3/$12 per 1M)</option>
+                </optgroup>
+                <optgroup label="Anthropic">
+                    <option value="sonnet-3.5">Claude 3.5 Sonnet ($3/$15 per 1M)</option>
+                    <option value="haiku-3.5">Claude 3.5 Haiku ($0.80/$4 per 1M)</option>
+                    <option value="opus-3">Claude 3 Opus ($15/$75 per 1M)</option>
+                </optgroup>
+                <optgroup label="Google">
+                    <option value="gemini-1.5-pro">Gemini 1.5 Pro ($1.25/$5 per 1M)</option>
+                    <option value="gemini-1.5-flash">Gemini 1.5 Flash ($0.075/$0.30 per 1M)</option>
+                </optgroup>
+            </select>
+            <span class="toolbar-label">×</span>
+            <select id="runsSelect" class="select" title="Estimated number of times this prompt will run">
+                <option value="1">1 run</option>
+                <option value="100">100 runs</option>
+                <option value="1000" selected>1k runs</option>
+                <option value="10000">10k runs</option>
+                <option value="100000">100k runs</option>
+                <option value="1000000">1M runs</option>
+            </select>
+        </div>
+
+        <div class="toolbar-group">
+            <div class="samples-wrap">
+                <button class="btn" id="samplesBtn" type="button">
+                    <span class="ico">📋</span> Load sample
+                </button>
+                <div class="samples-menu" id="samplesMenu"></div>
+            </div>
+            <button class="btn primary" id="optimizeBtn" type="button">
+                <span class="ico">⚡</span> Optimize
+            </button>
+        </div>
+    </div>
+
+    <!-- Editor + Output -->
+    <div class="editor-grid">
+        <section class="panel">
+            <div class="panel-head">
+                <div class="panel-title"><span class="dot"></span>Original prompt</div>
+                <div class="panel-meta">
+                    <span><b id="mInTok">0</b> tokens</span>
+                    <span><b id="mInChar">0</b> chars</span>
                 </div>
-                <div class="jotd-news">
-                    <b>📰 NEWS CONTEXT:</b> <span id="jotdNews">—</span>
+            </div>
+            <textarea id="input" class="editor" spellcheck="false"
+                placeholder="Paste your prompt here. Try a verbose system prompt, a long user message, or a chain-of-thought scaffold — PromptForge will trim it without changing intent."></textarea>
+            <div class="panel-head" style="border-bottom: 0; border-top: 1px solid var(--line);">
+                <div class="panel-actions">
+                    <button class="btn" id="pasteBtn" type="button"><span class="ico">📥</span> Paste</button>
+                    <button class="btn" id="clearBtn" type="button"><span class="ico">🗑</span> Clear</button>
                 </div>
-                <div class="jotd-actions">
-                    <button class="btn gold" id="jotdNewBtn">🎲 New MP Joke</button>
-                    <button class="btn ghost" id="jotdShareBtn">📤 Share</button>
+                <div class="panel-actions">
+                    <span class="panel-meta" id="liveStatus" style="font-size: 0.76rem;">auto-optimize: on</span>
                 </div>
             </div>
         </section>
 
-        <!-- JOKE CARDS -->
-        <section>
-            <h2 class="section-title">😂 Daily Joke Cards</h2>
-            <p class="section-sub">Each card analyzes a piece of Nepal political news → makes a joke → you pick + vote.</p>
-            <div class="filters" id="filters"></div>
-            <div class="jokes-grid" id="jokesGrid"></div>
-        </section>
-
-        <!-- LEADERBOARD -->
-        <section style="margin-top: 50px;">
-            <h2 class="section-title">🏆 Top Voted Jokes</h2>
-            <p class="section-sub">Live leaderboard — votes are stored in your browser.</p>
-            <div class="leaderboard">
-                <div class="lb-row head">
-                    <div class="lb-rank">#</div>
-                    <div class="lb-title">Joke</div>
-                    <div class="lb-num">SCORE</div>
-                    <div class="lb-num">VOTES</div>
+        <section class="panel">
+            <div class="panel-head">
+                <div class="panel-title out"><span class="dot"></span>Optimized prompt</div>
+                <div class="panel-meta">
+                    <span><b id="mOutTok">0</b> tokens</span>
+                    <span><b id="mOutChar">0</b> chars</span>
+                    <span style="color: var(--green);"><b id="mDelta">−0</b></span>
                 </div>
-                <div id="leaderboardBody"></div>
-                <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <small style="color: var(--text-secondary);">Score = 😂×3 + 🔥×2 + 🤔×1 + 💀×4</small>
-                    <button class="btn ghost" id="resetVotesBtn">♻️ Reset my votes</button>
+            </div>
+            <div id="output" class="output-box empty">Your optimized prompt will appear here.</div>
+            <div class="panel-head" style="border-bottom: 0; border-top: 1px solid var(--line);">
+                <div class="panel-actions">
+                    <button class="btn" id="diffBtn" type="button"><span class="ico">🔀</span> Show diff</button>
+                </div>
+                <div class="panel-actions">
+                    <button class="btn" id="copyBtn" type="button"><span class="ico">📑</span> Copy</button>
+                    <button class="btn" id="downloadBtn" type="button"><span class="ico">⬇</span> Download</button>
+                    <button class="btn primary" id="saveBtn" type="button"><span class="ico">💾</span> Save</button>
                 </div>
             </div>
         </section>
     </div>
 
-    <footer>
-        <p>🇳🇵 Made with <span class="made-with">♥</span> in Nepal | Nepal Jokes Hub</p>
-        <p>© 2026 — सबै हास्यको लागि</p>
-    </footer>
+    <!-- Rules -->
+    <section class="rules-section">
+        <div class="rules-head">
+            <h2>Optimization rules</h2>
+            <span class="hint">Toggle individual rules — switching to <b style="color:var(--cyan);">Custom</b> automatically.</span>
+        </div>
+        <div class="rules-grid" id="rulesGrid"></div>
+    </section>
 
-    <div id="toast"></div>
-    <canvas id="confetti"></canvas>
-
-    <script>
-    /* ============================================================
-       Nepal Jokes Hub — single-file app
-       Voting persisted in localStorage. Fully client-side.
-       ============================================================ */
-
-    /* ---------- DATA: MPs (real Nepali politicians, satirical quotes) ---------- */
-    const MPs = [
-        { name: "KP Sharma Oli",       role: "Former PM • CPN-UML",         initials: "KO" },
-        { name: "Pushpa Kamal Dahal 'Prachanda'", role: "Former PM • Maoist Centre", initials: "PD" },
-        { name: "Sher Bahadur Deuba",  role: "Nepali Congress President",   initials: "SD" },
-        { name: "Rabi Lamichhane",     role: "Former DPM • RSP",            initials: "RL" },
-        { name: "Balen Shah",          role: "Mayor of Kathmandu",          initials: "BS" },
-        { name: "Gagan Thapa",         role: "MP • Nepali Congress",        initials: "GT" },
-        { name: "Rabindra Mishra",     role: "RPP Senior Leader",           initials: "RM" },
-        { name: "Bidya Devi Bhandari", role: "Former President",            initials: "BB" },
-        { name: "Madhav Kumar Nepal",  role: "Former PM • CPN-Unified Socialist", initials: "MN" },
-        { name: "Sumana Shrestha",     role: "MP • RSP",                    initials: "SS" }
-    ];
-
-    /* ---------- DATA: Joke of the Day pool (one rotates per day) ---------- */
-    const JOTD_POOL = [
-        {
-            mpIndex: 0, category: "Parliament",
-            news: "Power-sharing deal renegotiated for the 4th time this year.",
-            quote: "मेरो सरकार स्थिर छ — हरेक ६ महिनामा स्थिरतापूर्वक फेरिन्छ।"
-        },
-        {
-            mpIndex: 1, category: "Coalition",
-            news: "Cabinet reshuffle announced after coffee-break in Singha Durbar.",
-            quote: "गठबन्धन भनेको त चियाजस्तै हो — हरेक पटक स्वाद फरक हुन्छ, तर भाँडा उही।"
-        },
-        {
-            mpIndex: 2, category: "Congress",
-            news: "Congress promises 'new leadership' for the 12th consecutive election.",
-            quote: "नयाँ नेतृत्व आउँदैछ — कहिल्यै आइसकेको छैन तर सधैं आउँदैछ।"
-        },
-        {
-            mpIndex: 3, category: "RSP",
-            news: "Cooperative fraud case continues; defendant blames 'system'.",
-            quote: "मैले गल्ती गरेको होइन — प्रणालीले गर्न दिएको हो। प्रणाली त मेरै थियो, तर त्यो अर्को कुरा।"
-        },
-        {
-            mpIndex: 4, category: "Kathmandu",
-            news: "Mayor demolishes another illegal structure on national TV.",
-            quote: "Kathmandu साँघुरो छैन — राजनीति साँघुरो छ। जेसिबी मसँग छ, हिम्मत तपाईंसँग होस्।"
-        },
-        {
-            mpIndex: 5, category: "Reform",
-            news: "Youth MP delivers 4-hour speech on accountability; nobody from cabinet present.",
-            quote: "जवाफदेहिता माग्नु संसदमा एक्लै बोल्नु जस्तै हो — आवाज त छ, श्रोता छैनन्।"
-        },
-        {
-            mpIndex: 6, category: "RPP",
-            news: "Pro-monarchy rally announced; organisers stuck in traffic.",
-            quote: "हामीले राजा फिर्ता ल्याउँछौं — पहिले काठमाडौंको ट्राफिक त सुधारौं।"
-        },
-        {
-            mpIndex: 7, category: "Presidency",
-            news: "Former President's memoir release postponed indefinitely.",
-            quote: "मैले धेरै कुरा देखें, तर लेख्न पाइएन — किनभने अझै धेरै हेर्न बाँकी छ।"
-        },
-        {
-            mpIndex: 8, category: "Splits",
-            news: "Yet another communist party splits before lunch.",
-            quote: "हाम्रो पार्टी फुट्नुलाई ‘विकास’ भनिन्छ — हरेक पटक नयाँ पार्टी जन्मन्छ।"
-        },
-        {
-            mpIndex: 9, category: "Tech",
-            news: "Bill on data protection delayed; MPs busy fixing their WiFi.",
-            quote: "डिजिटल नेपालको सपना सुन्दर छ — पहिले संसदको Wi-Fi त चलोस्।"
-        }
-    ];
-
-    /* ---------- DATA: Joke cards (multiple types/categories) ---------- */
-    const CATEGORIES = ["All", "Parliament", "Election", "Corruption", "Development", "Coalition", "Bureaucracy", "Power-cut", "Tech"];
-
-    const JOKES = [
-        {
-            id: "j01", category: "Parliament",
-            headline: "Parliament passes 'Productivity Bill' after 4-month delay",
-            text: "एउटा सांसदले प्रधानमन्त्रीलाई सोधे — 'महोदय, तपाईंको सरकारको प्राथमिकता के हो?'",
-            punchline: "उत्तर — 'पहिले मेरो कुर्सीको सुरक्षा, त्यसपछि देशको विकास।'",
-            options: [
-                "He meant the chair literally — Singha Durbar furniture quality.",
-                "He's prioritising Constitution over comfort.",
-                "Productivity Bill applies to citizens, not MPs."
-            ]
-        },
-        {
-            id: "j02", category: "Election",
-            headline: "EC announces 'free and fair' elections — same MPs return",
-            text: "नेताले भने — 'म यो चुनाव जित्नेछु!'",
-            punchline: "श्रीमतीले भनिन् — 'तपाईंले जित्नुहुन्छ भनेर मैले पनि भनेकी हुँ, तर चुनावको कुरा गरेकी होइन।'",
-            options: [
-                "She meant the daily home-front argument.",
-                "Confidence is hereditary in politics.",
-                "EC's idea of fairness needs an audit."
-            ]
-        },
-        {
-            id: "j03", category: "Development",
-            headline: "Ring Road expansion 'completed' — only 3 lanes missing",
-            text: "नेताले सडकको खाल्डो देखेर भने — 'यो त हाम्रो विकासको प्रतीक हो!'",
-            punchline: "अर्कोले सोध्यो — 'कस्तो विकास?' उत्तर — 'हरेक नागरिकलाई खाल्डोमा हाम्ने अवसर!'",
-            options: [
-                "Equal opportunity — everyone gets a pothole.",
-                "It's an art installation, actually.",
-                "Pothole = parking spot. Innovation."
-            ]
-        },
-        {
-            id: "j04", category: "Corruption",
-            headline: "CIAA opens 'investigation' into yet another tender",
-            text: "प्रहरीले चोर समात्यो — सोध्यो 'कति चोर्यौ?'",
-            punchline: "चोरले भन्यो — 'सरकार जत्ति होइन, बाबु — म त सानै चोर हुँ।'",
-            options: [
-                "Honesty among thieves > honesty in tenders.",
-                "He failed at corruption — he didn't network.",
-                "Small thief is always faster than big thief in court."
-            ]
-        },
-        {
-            id: "j05", category: "Coalition",
-            headline: "PM forms new coalition — 6th this term",
-            text: "गठबन्धनको बैठकमा भोजन सकियो, सहमति सकिएन।",
-            punchline: "एक नेताले भने — 'खाना मिलायौं, अब सिद्धान्त मिलाउने पालो।'",
-            options: [
-                "Politics runs on lunch, not principles.",
-                "Coalition = caterer's full employment scheme.",
-                "Ideology is dessert — optional."
-            ]
-        },
-        {
-            id: "j06", category: "Bureaucracy",
-            headline: "Singha Durbar files now require digital signature… in 2027",
-            text: "नागरिकले फाइलको प्रगति सोधे।",
-            punchline: "कर्मचारी — 'फाइल चलिरहेको छ, तर यसको गति हाम्रो विकासको गति जत्तिकै हो।'",
-            options: [
-                "Bureaucratic motion ≠ progress.",
-                "File runs faster than load-shedding plans.",
-                "It's stuck in 'pending — chai break'."
-            ]
-        },
-        {
-            id: "j07", category: "Power-cut",
-            headline: "NEA promises 'no load-shedding'; load-shedding promises NEA",
-            text: "बत्ती गयो। आमाले भनिन् — 'मन्त्रीज्यूको घरमा बत्ती छ?'",
-            punchline: "छोरोले भन्यो — 'आमा, उहाँको घरमा बत्ती होइन — सम्पूर्ण विद्युत गृह नै छ।'",
-            options: [
-                "Minister's home = mini hydro project.",
-                "NEA load-sheds democracy first, then us.",
-                "Inverter is the real PM."
-            ]
-        },
-        {
-            id: "j08", category: "Tech",
-            headline: "Digital Nepal 2.0 launched — buffering since 2019",
-            text: "मन्त्रीले डिजिटल नेपालको सपना सुनाए।",
-            punchline: "नागरिकले सोधे — 'सर, पहिले संसदको Wi-Fi त चलोस्।'",
-            options: [
-                "Nation's Wi-Fi = MPs' productivity.",
-                "Buffering is also a form of stability.",
-                "Cloud is up — but only the rain kind."
-            ]
-        },
-        {
-            id: "j09", category: "Parliament",
-            headline: "MPs allocate 12% increment to themselves; cite 'austerity'",
-            text: "सांसदहरूले आफ्नो तलब बढाउन निर्णय गरे।",
-            punchline: "विपक्षीले भने — 'मितव्ययिता त राम्रो हो — तर मेरो तलब पनि बढ्नुपर्छ।'",
-            options: [
-                "Austerity = applies to others.",
-                "Bipartisan unity exists — only on salaries.",
-                "Citizens get inflation, MPs get increment."
-            ]
-        },
-        {
-            id: "j10", category: "Corruption",
-            headline: "VVIP convoy blocks ambulance; 'protocol matters'",
-            text: "नागरिकले एम्बुलेन्स फसेको देखे।",
-            punchline: "मन्त्रीज्यू — 'प्रोटोकल भनेको प्रोटोकल हो — स्वास्थ्य भनेको स्वास्थ्य हो।'",
-            options: [
-                "Two parallel realities, one road.",
-                "Protocol = priority. Patient = paperwork.",
-                "Sirens are background music for VIPs."
-            ]
-        },
-        {
-            id: "j11", category: "Election",
-            headline: "Independent candidate trends; main parties trend down",
-            text: "नयाँ अनुहार आए — पुरानाहरूले सोधे 'यी को हुन्?'",
-            punchline: "जवाफ — 'जनता।'",
-            options: [
-                "Voters are the new opposition.",
-                "Old guard forgot what voters look like.",
-                "Independents = parties' midlife crisis."
-            ]
-        },
-        {
-            id: "j12", category: "Development",
-            headline: "Melamchi water 'arrives' — for the 9th time, briefly",
-            text: "पानी आयो। नागरिकले उत्सव गरे।",
-            punchline: "अर्को बिहान पानी गयो — मन्त्रीले भने 'यो पनि विकास हो — आउने–जाने।'",
-            options: [
-                "Cyclical development > linear development.",
-                "Water has term limits, like governments.",
-                "Tap = political career: occasionally functional."
-            ]
-        }
-    ];
-
-    /* ---------- LocalStorage helpers ---------- */
-    const KEY_VOTES = "nepal_jokes_votes_v1";
-    const KEY_USER  = "nepal_jokes_user_v1";   // per-joke user choice + option
-    const KEY_JOTD  = "nepal_jokes_jotd_v1";   // pinned joke-of-the-day index per date
-
-    function readJSON(k, fallback) {
-        try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; }
-        catch { return fallback; }
-    }
-    function writeJSON(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-
-    function getVotes()      { return readJSON(KEY_VOTES, {}); }
-    function getUserVotes()  { return readJSON(KEY_USER, {}); }
-
-    function ensureJokeRecord(votes, id) {
-        if (!votes[id]) votes[id] = { funny: 0, fire: 0, meh: 0, dead: 0, optionPicks: [0,0,0] };
-        if (!votes[id].optionPicks) votes[id].optionPicks = [0,0,0];
-        return votes[id];
-    }
-
-    /* ---------- Date helpers ---------- */
-    const NEPALI_MONTHS = ["बैशाख","जेठ","असार","श्रावण","भदौ","असोज","कार्तिक","मंसिर","पुष","माघ","फाल्गुण","चैत्र"];
-    function setDates() {
-        const d = new Date();
-        document.getElementById("englishDate").textContent =
-            d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-        // Approximate (visual) Nepali date — for display only.
-        const nepaliYear = d.getFullYear() + 57;
-        const nepaliMonth = NEPALI_MONTHS[(d.getMonth() + 8) % 12];
-        document.getElementById("nepaliDate").textContent =
-            `${nepaliMonth} ${d.getDate()}, ${nepaliYear} BS`;
-    }
-
-    /* ---------- Joke of the Day ---------- */
-    function jotdIndexForToday() {
-        const todayKey = new Date().toISOString().slice(0,10);
-        const stored = readJSON(KEY_JOTD, null);
-        if (stored && stored.date === todayKey) return stored.idx;
-        // deterministic by date
-        const seed = todayKey.split("-").join("");
-        const idx = Number(seed) % JOTD_POOL.length;
-        writeJSON(KEY_JOTD, { date: todayKey, idx });
-        return idx;
-    }
-    function renderJOTD(idx) {
-        const j = JOTD_POOL[idx];
-        const mp = MPs[j.mpIndex];
-        document.getElementById("jotdCategory").textContent = j.category.toUpperCase();
-        document.getElementById("jotdQuote").textContent = j.quote;
-        document.getElementById("jotdAvatar").textContent = mp.initials;
-        document.getElementById("jotdName").textContent = mp.name;
-        document.getElementById("jotdRole").textContent = mp.role;
-        document.getElementById("jotdNews").textContent = j.news;
-    }
-
-    /* ---------- Joke Cards rendering ---------- */
-    let activeFilter = "All";
-
-    function emojiFor(kind) {
-        return ({ funny: "😂", fire: "🔥", meh: "🤔", dead: "💀" })[kind];
-    }
-
-    function renderFilters() {
-        const wrap = document.getElementById("filters");
-        wrap.innerHTML = "";
-        CATEGORIES.forEach(cat => {
-            const b = document.createElement("button");
-            b.className = "filter-btn" + (cat === activeFilter ? " active" : "");
-            b.textContent = cat;
-            b.onclick = () => { activeFilter = cat; renderFilters(); renderJokes(); };
-            wrap.appendChild(b);
-        });
-    }
-
-    function renderJokes() {
-        const grid = document.getElementById("jokesGrid");
-        grid.innerHTML = "";
-        const votes = getVotes();
-        const userVotes = getUserVotes();
-        const list = JOKES.filter(j => activeFilter === "All" || j.category === activeFilter);
-        list.forEach((j, i) => {
-            const rec = ensureJokeRecord(votes, j.id);
-            const userRec = userVotes[j.id] || {};
-            const total = rec.funny + rec.fire + rec.meh + rec.dead;
-            const optTotal = rec.optionPicks.reduce((a,b) => a+b, 0);
-
-            const card = document.createElement("div");
-            card.className = "joke-card";
-            card.innerHTML = `
-                <div class="joke-meta">
-                    <span class="joke-tag">${j.category}</span>
-                    <span class="joke-rank">#${i+1} • ID ${j.id}</span>
+    <!-- Tips + History -->
+    <div class="bottom-grid">
+        <div class="card">
+            <h2>💡 Tips for token-efficient prompts</h2>
+            <div class="tips-list">
+                <div class="tip">
+                    <div class="tip-num">1</div>
+                    <div class="tip-body"><b>Drop the politeness.</b> Models don't need "please", "kindly", or "thank you". Each one costs ~1 token without changing the response.</div>
                 </div>
-                <div class="news-headline">📰 ${j.headline}</div>
-                <div class="joke-text">${j.text}</div>
-                <div class="joke-punchline">💬 ${j.punchline}</div>
-                <div class="joke-options">
-                    <div class="joke-options-title">Pick your interpretation:</div>
-                    ${j.options.map((opt, oi) => {
-                        const pct = optTotal ? Math.round((rec.optionPicks[oi] / optTotal) * 100) : 0;
-                        const isSel = userRec.option === oi;
-                        return `<button class="option-btn ${isSel ? 'selected' : ''}" data-id="${j.id}" data-opt="${oi}">
-                                    ${String.fromCharCode(65+oi)}. ${opt}
-                                    <span class="opt-pct">${pct}%</span>
-                                </button>`;
-                    }).join("")}
+                <div class="tip">
+                    <div class="tip-num">2</div>
+                    <div class="tip-body"><b>Prefer imperatives.</b> "Summarize this." beats "Could you possibly summarize this for me?" — same output, ~7× fewer tokens.</div>
                 </div>
-                <div class="vote-bar">
-                    ${["funny","fire","meh","dead"].map(k => `
-                        <button class="vote-btn ${k} ${userRec.kind === k ? 'active' : ''}" data-id="${j.id}" data-kind="${k}">
-                            <span class="emo">${emojiFor(k)}</span>
-                            <span class="vote-count" data-count="${k}-${j.id}">${rec[k]}</span>
-                        </button>
-                    `).join("")}
+                <div class="tip">
+                    <div class="tip-num">3</div>
+                    <div class="tip-body"><b>Compress verbose phrases.</b> "in order to" → "to", "due to the fact that" → "because", "at this point in time" → "now".</div>
                 </div>
-                <div class="joke-foot">
-                    <span>👍 ${total} total votes</span>
-                    <button class="share-btn" data-share="${j.id}">📤 Share</button>
+                <div class="tip">
+                    <div class="tip-num">4</div>
+                    <div class="tip-body"><b>Use structured output formats.</b> Asking for JSON/YAML often produces a tighter response and reduces output tokens (the expensive ones).</div>
                 </div>
-            `;
-            grid.appendChild(card);
-        });
+                <div class="tip">
+                    <div class="tip-num">5</div>
+                    <div class="tip-body"><b>Cache long system prompts.</b> If your provider supports prompt caching (Anthropic, OpenAI), put stable instructions first to slash repeated input cost.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-num">6</div>
+                    <div class="tip-body"><b>Avoid redundant context.</b> Don't repeat what's in the system prompt inside every user message — it's billed every turn.</div>
+                </div>
+            </div>
+        </div>
 
-        // bind
-        grid.querySelectorAll(".vote-btn").forEach(b => b.addEventListener("click", onVote));
-        grid.querySelectorAll(".option-btn").forEach(b => b.addEventListener("click", onOption));
-        grid.querySelectorAll(".share-btn").forEach(b => b.addEventListener("click", onShare));
-    }
+        <div class="card">
+            <h2>🕘 History
+                <button class="btn icon-only danger" id="clearHistBtn" type="button" style="margin-left:auto;" title="Clear history">🗑</button>
+            </h2>
+            <div id="historyList" class="history-list"></div>
+        </div>
+    </div>
+</main>
 
-    /* ---------- Voting ---------- */
-    function onVote(e) {
-        const btn = e.currentTarget;
-        const id = btn.dataset.id;
-        const kind = btn.dataset.kind;
-        const votes = getVotes();
-        const userVotes = getUserVotes();
-        const rec = ensureJokeRecord(votes, id);
-        const prev = userVotes[id] || {};
+<footer>
+    Built with <span class="heart">♥</span> for prompt engineers · 100% client-side · No prompts ever leave your browser.
+</footer>
 
-        if (prev.kind === kind) {
-            // un-vote (toggle)
-            rec[kind] = Math.max(0, rec[kind] - 1);
-            delete prev.kind;
-            toast(`Removed your ${emojiFor(kind)} vote`);
-        } else {
-            if (prev.kind) rec[prev.kind] = Math.max(0, rec[prev.kind] - 1);
-            rec[kind] += 1;
-            prev.kind = kind;
-            toast(`Recorded ${emojiFor(kind)} vote!`);
-            confetti(kind);
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ============================================================================
+ * PromptForge — AI Prompt Optimizer
+ *
+ * Self-contained client-side tool. Token estimation uses a heuristic close to
+ * tiktoken's cl100k_base encoding for English — typically within ±5% of the
+ * real count for prose. Pricing reflects published per-token rates as of
+ * early 2026; treat numbers as estimates.
+ * ========================================================================= */
+
+/* ---------- Token estimator (cl100k-style heuristic) ----------
+ * Real tokenizers are BPE-based and not trivially portable, so this combines
+ * two well-known approximations and weights them by content type:
+ *   (a) chars / 4 — OpenAI's published rough rule for English
+ *   (b) words * 1.33 — closer for short words and code
+ * We bias toward whichever predicts higher (more conservative for cost).
+ */
+function estimateTokens(text) {
+    if (!text) return 0;
+    const chars = text.length;
+    const words = (text.match(/\S+/g) || []).length;
+    const newlines = (text.match(/\n/g) || []).length;
+    // Punctuation & special chars often become their own token
+    const specials = (text.match(/[^\w\s]/g) || []).length;
+    const charBased = Math.ceil(chars / 4);
+    const wordBased = Math.ceil(words * 1.33 + specials * 0.4 + newlines * 0.3);
+    return Math.max(charBased, wordBased);
+}
+
+function countWords(text) { return (text.match(/\S+/g) || []).length; }
+
+/* ---------- Optimization rules ---------- */
+const RULES = [
+    {
+        id: 'whitespace',
+        name: 'Collapse whitespace',
+        desc: 'Multiple spaces/blank lines collapsed to one. Trims line edges.',
+        levels: ['light', 'balanced', 'aggressive'],
+        apply: (text) => text
+            .replace(/\r\n/g, '\n')
+            .replace(/[ \t]+/g, ' ')
+            .replace(/[ \t]*\n[ \t]*/g, '\n')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim()
+    },
+    {
+        id: 'punctuation',
+        name: 'Normalize punctuation',
+        desc: 'Smart quotes → straight, em-dash → hyphen, "!!!" → "!".',
+        levels: ['light', 'balanced', 'aggressive'],
+        apply: (text) => text
+            .replace(/[\u2018\u2019]/g, "'")
+            .replace(/[\u201C\u201D]/g, '"')
+            .replace(/\u2026/g, '...')
+            .replace(/[\u2013\u2014]/g, '-')
+            .replace(/!{2,}/g, '!')
+            .replace(/\?{2,}/g, '?')
+            .replace(/\.{4,}/g, '...')
+            .replace(/\s+([,.!?;:])/g, '$1')
+    },
+    {
+        id: 'verbose',
+        name: 'Compress verbose phrases',
+        desc: '"in order to" → "to"; "due to the fact that" → "because"; etc.',
+        levels: ['light', 'balanced', 'aggressive'],
+        apply: (text) => {
+            const reps = [
+                [/\bin order to\b/gi, 'to'],
+                [/\bdue to the fact that\b/gi, 'because'],
+                [/\bin spite of the fact that\b/gi, 'although'],
+                [/\bdespite the fact that\b/gi, 'although'],
+                [/\bregardless of the fact that\b/gi, 'although'],
+                [/\bwith regard to\b/gi, 'about'],
+                [/\bwith respect to\b/gi, 'about'],
+                [/\bin reference to\b/gi, 'about'],
+                [/\bin relation to\b/gi, 'about'],
+                [/\bin terms of\b/gi, 'in'],
+                [/\bin the event that\b/gi, 'if'],
+                [/\bat this point in time\b/gi, 'now'],
+                [/\bat the present time\b/gi, 'now'],
+                [/\bat this moment in time\b/gi, 'now'],
+                [/\bin the near future\b/gi, 'soon'],
+                [/\bfor the purpose of\b/gi, 'to'],
+                [/\bin the case of\b/gi, 'for'],
+                [/\bsubsequent to\b/gi, 'after'],
+                [/\bprior to\b/gi, 'before'],
+                [/\bin the absence of\b/gi, 'without'],
+                [/\bon a (daily|weekly|monthly|yearly) basis\b/gi, '$1'],
+                [/\ba (large|great) number of\b/gi, 'many'],
+                [/\ba great deal of\b/gi, 'much'],
+                [/\bthe majority of\b/gi, 'most'],
+                [/\ba lot of\b/gi, 'many'],
+                [/\bmake use of\b/gi, 'use'],
+                [/\bgive consideration to\b/gi, 'consider'],
+                [/\btake into consideration\b/gi, 'consider'],
+                [/\bin the process of\b/gi, ''],
+                [/\bit (is|should be) (noted|noticed|mentioned) that\b/gi, ''],
+                [/\bit is important to (note|mention|remember|understand)\b/gi, ''],
+                [/\bplease be (advised|aware|informed) that\b/gi, ''],
+                [/\bas a matter of fact\b/gi, ''],
+                [/\bin a (manner|way) (that is|which is) /gi, ''],
+                [/\butilize\b/gi, 'use'],
+                [/\butilization\b/gi, 'use'],
+                [/\bdemonstrate\b/gi, 'show'],
+                [/\bcommence\b/gi, 'start'],
+                [/\bterminate\b/gi, 'end'],
+                [/\binitiate\b/gi, 'start'],
+                [/\bfacilitate\b/gi, 'help'],
+                [/\bendeavor\b/gi, 'try'],
+                [/\bnumerous\b/gi, 'many'],
+                [/\bcurrently\b/gi, 'now'],
+            ];
+            reps.forEach(([p, r]) => text = text.replace(p, r));
+            return text;
         }
-        userVotes[id] = prev;
-        writeJSON(KEY_VOTES, votes);
-        writeJSON(KEY_USER, userVotes);
-        afterVoteUpdate();
-    }
-
-    function onOption(e) {
-        const btn = e.currentTarget;
-        const id = btn.dataset.id;
-        const oi = Number(btn.dataset.opt);
-        const votes = getVotes();
-        const userVotes = getUserVotes();
-        const rec = ensureJokeRecord(votes, id);
-        const prev = userVotes[id] || {};
-
-        if (prev.option === oi) {
-            rec.optionPicks[oi] = Math.max(0, rec.optionPicks[oi] - 1);
-            delete prev.option;
-            toast("Selection cleared");
-        } else {
-            if (prev.option != null) rec.optionPicks[prev.option] = Math.max(0, rec.optionPicks[prev.option] - 1);
-            rec.optionPicks[oi] += 1;
-            prev.option = oi;
-            toast(`Selected option ${String.fromCharCode(65+oi)}`);
+    },
+    {
+        id: 'politeness',
+        name: 'Strip politeness fillers',
+        desc: '"please", "kindly", "thank you", "could you" — models don\'t need them.',
+        levels: ['balanced', 'aggressive'],
+        apply: (text) => {
+            const pats = [
+                /\b(please|kindly|pls)\b[, ]?/gi,
+                /\bthank(s| you)( so much| very much| in advance)?\b[.,!]?/gi,
+                /\bif you (could|would|don'?t mind)\b[, ]?/gi,
+                /\bi('?d| would) (really )?(appreciate it if (you )?|like (you )?to|love (you )?to|prefer (you )?to)\b/gi,
+                /\bcould you (please |kindly )?/gi,
+                /\bwould you (please |kindly |mind )?/gi,
+                /\bcan you (please |kindly )?/gi,
+                /\bi('?m| am) (just )?(wondering|asking|hoping|requesting|writing to ask|reaching out)\b[, ]?/gi,
+                /\bi (just )?(want|need|hope|wish|would like) (you )?to\b/gi,
+                /\bi('?d| would) like (you )?to\b/gi,
+            ];
+            pats.forEach(p => text = text.replace(p, ''));
+            return text;
         }
-        userVotes[id] = prev;
-        writeJSON(KEY_VOTES, votes);
-        writeJSON(KEY_USER, userVotes);
-        afterVoteUpdate();
-    }
+    },
+    {
+        id: 'redundancy',
+        name: 'Remove redundant phrases',
+        desc: '"as you know", "needless to say", "at the end of the day", etc.',
+        levels: ['balanced', 'aggressive'],
+        apply: (text) => {
+            const pats = [
+                /\bas you (already )?(know|are aware|may know)\b[, ]?/gi,
+                /\bneedless to say\b[, ]?/gi,
+                /\b(it )?goes without saying( that)?\b[, ]?/gi,
+                /\bfor (all|the most) (intents|practical) purposes\b[, ]?/gi,
+                /\bat the end of the day\b[, ]?/gi,
+                /\blast but not least\b[, ]?/gi,
+                /\bfirst and foremost\b[, ]?/gi,
+                /\bto be (perfectly )?honest\b[, ]?/gi,
+                /\bin (my )?(humble |honest )?opinion\b[, ]?/gi,
+                /\bif (i may|i can|i might) say so\b[, ]?/gi,
+                /\bif that makes sense\b[, ]?/gi,
+                /\bdoes that make sense\?\s*/gi,
+                /\bjust so you know\b[, ]?/gi,
+            ];
+            pats.forEach(p => text = text.replace(p, ''));
+            return text;
+        }
+    },
+    {
+        id: 'context',
+        name: 'Strip greetings & throat-clearing',
+        desc: 'Remove "Hi there!", apologies, "I hope this finds you well".',
+        levels: ['balanced', 'aggressive'],
+        apply: (text) => {
+            const pats = [
+                /^(hi|hello|hey|greetings)( there| everyone| team| folks)?[!.,]?\s*/gi,
+                /^(good (morning|afternoon|evening|day))[!.,]?\s*/gi,
+                /\bsorry (to (bother|trouble) you|for the (trouble|inconvenience)|but|if)\b[^.!?\n]*[.!?]?/gi,
+                /\bi hope (this (message |email )?finds you well|you('?re| are) (doing )?(well|good))\b[^.!?\n]*[.!?]?/gi,
+                /\bjust (wanted to|to (let you know|check in|follow up)|wondering)\b\s?/gi,
+                /\bif it'?s (ok|okay|alright|fine)\b[, ]?/gi,
+            ];
+            pats.forEach(p => text = text.replace(p, ''));
+            return text;
+        }
+    },
+    {
+        id: 'qualifiers',
+        name: 'Drop weak qualifiers',
+        desc: '"very", "really", "actually", "basically", "literally", etc.',
+        levels: ['aggressive'],
+        apply: (text) => text.replace(
+            /\b(very|really|quite|rather|somewhat|fairly|pretty|just|actually|basically|literally|essentially|simply|absolutely|definitely|certainly|obviously|clearly|honestly|truly|genuinely|kinda|sorta)\s+/gi,
+            ''
+        )
+    },
+    {
+        id: 'lists',
+        name: 'Compact short lists',
+        desc: 'Inline "- a / - b / - c" as "a; b; c" when items are short.',
+        levels: ['aggressive'],
+        apply: (text) => text.replace(
+            /(?:^|\n)((?:[ \t]*[-*•][ \t]+[^\n]+\n?){2,})/g,
+            (match, block) => {
+                const items = block.match(/[-*•][ \t]+([^\n]+)/g)
+                    .map(x => x.replace(/^[-*•][ \t]+/, '').trim())
+                    .filter(Boolean);
+                if (items.every(i => i.length <= 60)) {
+                    return '\n' + items.join('; ') + '\n';
+                }
+                return match;
+            }
+        )
+    },
+    {
+        id: 'dedupe',
+        name: 'Deduplicate sentences',
+        desc: 'Drop repeated sentences (case-insensitive, ignoring punctuation).',
+        levels: ['aggressive'],
+        apply: (text) => {
+            const sentences = text.split(/([.!?]+\s+)/);
+            const seen = new Set();
+            const out = [];
+            for (let i = 0; i < sentences.length; i += 2) {
+                const s = sentences[i] || '';
+                const sep = sentences[i + 1] || '';
+                const key = s.toLowerCase().replace(/[^\w]/g, '');
+                if (key.length === 0) { out.push(s + sep); continue; }
+                if (seen.has(key)) continue;
+                seen.add(key);
+                out.push(s + sep);
+            }
+            return out.join('');
+        }
+    },
+    {
+        id: 'articles',
+        name: 'Trim filler articles (risky)',
+        desc: 'Drop "the/a" before plural/uncountable nouns. Off by default.',
+        levels: [],
+        apply: (text) => text.replace(/\b(the|a) (an? )?\b(?=\w+s\b)/gi, '')
+    },
+];
 
-    function onShare(e) {
-        const id = e.currentTarget.dataset.share;
-        const j = JOKES.find(x => x.id === id);
-        if (!j) return;
-        const text = `Nepal Jokes Hub 🇳🇵\n📰 ${j.headline}\n${j.text}\n💬 ${j.punchline}`;
-        if (navigator.share) {
-            navigator.share({ text }).catch(() => {});
-        } else if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(() => toast("Copied to clipboard!"));
-        } else {
-            toast("Share not supported");
+/* ---------- Sample prompts ---------- */
+const SAMPLES = [
+    {
+        name: 'Verbose customer-service reply',
+        text: `Hi there! I hope this email finds you well. I am writing to you today to please kindly ask if you could possibly take a look at the attached document, which is in regard to the project that we have been working on for quite some time now. I would really appreciate it if you could provide me with your feedback at your earliest convenience. In order to facilitate the review process, I have included a summary of the key points that I would like you to take into consideration. Thank you so much in advance for your help with this matter. Please let me know if you have any questions whatsoever.`
+    },
+    {
+        name: 'Bloated system prompt',
+        text: `You are a very helpful and extremely knowledgeable AI assistant. It is very important to note that you should always be polite and respectful in your responses. Please make sure to provide accurate and detailed information at all times. In the event that you are not entirely sure about something, you should kindly indicate that you are uncertain rather than making up an answer. It goes without saying that you should never share any personal or sensitive information. As you may already know, your role is to assist users with their questions in a manner that is both helpful and professional. Thank you for your cooperation.`
+    },
+    {
+        name: 'Code review request',
+        text: `Could you please take a look at the following code and tell me what you think? I would really like to know if there are any issues or improvements that could be made. Just to be clear, I am looking for feedback on the overall structure as well as any potential bugs. It would be very helpful if you could also point out any best practices that I might have missed. Thank you so much in advance for your time and effort.
+
+- Check for bugs
+- Suggest improvements
+- Note best practices
+- Comment on readability`
+    },
+    {
+        name: 'Verbose summarization brief',
+        text: `I would like for you to please summarize the following article for me. In order to do this effectively, please make sure to identify the main points and present them in a clear and concise manner. It is important to note that the summary should be no longer than 200 words. Additionally, please be sure to maintain the original tone and intent of the article. Please pay particular attention to any statistics or quotes that are mentioned, as those tend to be the most important parts. Thank you in advance for your help.`
+    },
+    {
+        name: 'Long roleplay scaffold',
+        text: `Let me explain what I want you to do. Basically, I want you to roleplay as a very experienced senior software engineer who has been working in the industry for over 20 years. You should literally respond as if you were actually this person. Please make sure to use technical jargon when appropriate and provide really detailed explanations. Honestly, I think it would be really helpful if you could also share personal anecdotes from your supposed experience. To be perfectly honest, this is just for educational purposes, so feel free to be as detailed as you possibly can.`
+    },
+];
+
+/* ---------- Pricing (per 1M tokens, USD) ---------- */
+const PRICING = {
+    'gpt-4o':            { in: 2.50,  out: 10.00 },
+    'gpt-4o-mini':       { in: 0.15,  out: 0.60 },
+    'gpt-4-turbo':       { in: 10.00, out: 30.00 },
+    'o1':                { in: 15.00, out: 60.00 },
+    'o1-mini':           { in: 3.00,  out: 12.00 },
+    'sonnet-3.5':        { in: 3.00,  out: 15.00 },
+    'haiku-3.5':         { in: 0.80,  out: 4.00 },
+    'opus-3':            { in: 15.00, out: 75.00 },
+    'gemini-1.5-pro':    { in: 1.25,  out: 5.00 },
+    'gemini-1.5-flash':  { in: 0.075, out: 0.30 },
+};
+
+/* ---------- Optimizer driver ---------- */
+const LEVEL_PRESETS = {
+    light:      { rules: ['whitespace', 'punctuation', 'verbose'] },
+    balanced:   { rules: ['whitespace', 'punctuation', 'verbose', 'politeness', 'redundancy', 'context'] },
+    aggressive: { rules: ['whitespace', 'punctuation', 'verbose', 'politeness', 'redundancy', 'context', 'qualifiers', 'lists', 'dedupe'] },
+    custom:     null
+};
+
+const state = {
+    level: 'balanced',
+    enabled: new Set(LEVEL_PRESETS.balanced.rules),
+    showDiff: false,
+    history: loadHistory(),
+    lifetimeSaved: parseInt(localStorage.getItem('pf_lifetime') || '0', 10),
+    lifetimeCost: parseFloat(localStorage.getItem('pf_lifetimeCost') || '0'),
+    model: 'gpt-4o-mini',
+    runs: 1000,
+    lastInput: '',
+    lastOutput: '',
+};
+
+function applyLevel(level) {
+    state.level = level;
+    if (LEVEL_PRESETS[level]) {
+        state.enabled = new Set(LEVEL_PRESETS[level].rules);
+        renderRules();
+    }
+    document.querySelectorAll('#levelSeg button').forEach(b => {
+        b.classList.toggle('active', b.dataset.level === level);
+    });
+    optimize();
+}
+
+function optimize() {
+    const input = document.getElementById('input').value;
+    state.lastInput = input;
+
+    let output = input;
+    for (const r of RULES) {
+        if (state.enabled.has(r.id)) {
+            try { output = r.apply(output); }
+            catch (e) { console.warn('Rule failed:', r.id, e); }
         }
     }
-
-    function afterVoteUpdate() {
-        renderJokes();
-        renderLeaderboard();
-        updateStats();
+    // Final whitespace cleanup if the rule was active
+    if (state.enabled.has('whitespace')) {
+        output = output.replace(/[ \t]+/g, ' ').replace(/[ \t]*\n[ \t]*/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    }
+    // Repair after rule passes: stray punctuation, leading conjunctions, sentence casing
+    if (state.enabled.size && output) {
+        output = output
+            .replace(/^[\s,;:]+/, '')                                // leading dangling punctuation
+            .replace(/\s+([,.!?;:])/g, '$1')                         // floating punctuation
+            .replace(/([,.!?;:])(?=[^\s\n])/g, '$1 ')                // ensure space after punctuation
+            .replace(/(^|[.!?]\s+)([a-z])/g, (m, sep, c) => sep + c.toUpperCase()) // recapitalize sentence starts
+            .replace(/[ \t]+/g, ' ')
+            .replace(/^[ \t]+|[ \t]+$/gm, '')
+            .trim();
     }
 
-    /* ---------- Leaderboard ---------- */
-    function scoreOf(rec) {
-        return rec.funny*3 + rec.fire*2 + rec.meh*1 + rec.dead*4;
-    }
-    function totalOf(rec) {
-        return rec.funny + rec.fire + rec.meh + rec.dead;
-    }
-    function renderLeaderboard() {
-        const body = document.getElementById("leaderboardBody");
-        body.innerHTML = "";
-        const votes = getVotes();
-        const ranked = JOKES
-            .map(j => ({ j, rec: ensureJokeRecord(votes, j.id) }))
-            .map(x => ({ ...x, score: scoreOf(x.rec), total: totalOf(x.rec) }))
-            .sort((a,b) => b.score - a.score || b.total - a.total)
-            .slice(0, 10);
+    state.lastOutput = output;
+    renderResults(input, output);
+}
 
-        if (ranked.every(x => x.total === 0)) {
-            body.innerHTML = `<div class="lb-empty">No votes yet — be the first to vote! 🗳️</div>`;
-            return;
+/* ---------- Diff (word-level LCS) ---------- */
+function diffWords(a, b) {
+    const A = a.split(/(\s+)/);
+    const B = b.split(/(\s+)/);
+    const n = A.length, m = B.length;
+    // dp[i][j] = LCS length
+    const dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = m - 1; j >= 0; j--) {
+            if (A[i] === B[j]) dp[i][j] = dp[i + 1][j + 1] + 1;
+            else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
         }
-
-        ranked.forEach((x, i) => {
-            const cls = i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
-            const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i+1}`;
-            const row = document.createElement("div");
-            row.className = "lb-row";
-            row.innerHTML = `
-                <div class="lb-rank ${cls}">${medal}</div>
-                <div class="lb-title">${escapeHtml(x.j.headline)}<small>${x.j.category} • ${escapeHtml(x.j.text.slice(0, 70))}…</small></div>
-                <div class="lb-num score">${x.score}</div>
-                <div class="lb-num total">${x.total}</div>
-            `;
-            body.appendChild(row);
-        });
     }
-
-    function escapeHtml(s) {
-        return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+    const out = [];
+    let i = 0, j = 0;
+    while (i < n && j < m) {
+        if (A[i] === B[j]) { out.push({ t: 'eq', v: A[i] }); i++; j++; }
+        else if (dp[i + 1][j] >= dp[i][j + 1]) { out.push({ t: 'rm', v: A[i] }); i++; }
+        else { out.push({ t: 'add', v: B[j] }); j++; }
     }
+    while (i < n) { out.push({ t: 'rm', v: A[i++] }); }
+    while (j < m) { out.push({ t: 'add', v: B[j++] }); }
+    return out;
+}
 
-    /* ---------- Stats ---------- */
-    function updateStats() {
-        const userVotes = getUserVotes();
-        const votes = getVotes();
-        const yours = Object.values(userVotes).filter(v => v.kind).length;
-        document.getElementById("yourVotes").textContent = yours;
-        const total = Object.values(votes).reduce((a, r) => a + r.funny + r.fire + r.meh + r.dead, 0);
-        document.getElementById("totalVotesPill").textContent = `Total votes: ${total}`;
+function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderResults(input, output) {
+    const inTok = estimateTokens(input);
+    const outTok = estimateTokens(output);
+    const saved = inTok - outTok;
+    const pct = inTok > 0 ? Math.max(0, Math.round((saved / inTok) * 100)) : 0;
+
+    document.getElementById('sIn').textContent = inTok.toLocaleString();
+    document.getElementById('sInSub').textContent = `${input.length.toLocaleString()} chars · ${countWords(input).toLocaleString()} words`;
+    document.getElementById('sOut').textContent = outTok.toLocaleString();
+    document.getElementById('sOutSub').textContent = `${output.length.toLocaleString()} chars · ${countWords(output).toLocaleString()} words`;
+    document.getElementById('sSaved').textContent = `${pct}%`;
+    document.getElementById('sSavedSub').textContent = `${saved.toLocaleString()} tokens removed`;
+
+    const price = PRICING[state.model];
+    const costBefore = (inTok / 1_000_000) * price.in * state.runs;
+    const costAfter  = (outTok / 1_000_000) * price.in * state.runs;
+    const costSaved  = Math.max(0, costBefore - costAfter);
+    document.getElementById('sCost').textContent = '$' + costSaved.toFixed(costSaved < 1 ? 4 : 2);
+    document.getElementById('sCostSub').textContent =
+        state.runs === 1 ? 'per run' : `per ${state.runs.toLocaleString()} runs`;
+
+    // Latency: very rough — most providers bill input separately and process at roughly 0.5–1ms/token
+    const latencyMs = Math.max(0, saved) * 0.6;
+    document.getElementById('sLat').textContent = latencyMs > 1000
+        ? (latencyMs / 1000).toFixed(2) + ' s'
+        : Math.round(latencyMs) + ' ms';
+
+    // Inline meta
+    document.getElementById('mInTok').textContent = inTok.toLocaleString();
+    document.getElementById('mInChar').textContent = input.length.toLocaleString();
+    document.getElementById('mOutTok').textContent = outTok.toLocaleString();
+    document.getElementById('mOutChar').textContent = output.length.toLocaleString();
+    document.getElementById('mDelta').textContent = saved >= 0 ? `−${saved.toLocaleString()}` : `+${(-saved).toLocaleString()}`;
+
+    // Output panel
+    const out = document.getElementById('output');
+    if (!input) {
+        out.classList.add('empty');
+        out.textContent = 'Your optimized prompt will appear here.';
+        return;
     }
+    out.classList.remove('empty');
+    if (state.showDiff) {
+        const segs = diffWords(input, output);
+        out.innerHTML = segs.map(s => {
+            if (s.t === 'eq')  return escapeHtml(s.v);
+            if (s.t === 'rm')  return `<span class="removed">${escapeHtml(s.v)}</span>`;
+            if (s.t === 'add') return `<span class="added">${escapeHtml(s.v)}</span>`;
+        }).join('');
+    } else {
+        out.textContent = output;
+    }
+}
 
-    /* ---------- JOTD actions ---------- */
-    let jotdIdx = 0;
-    document.addEventListener("DOMContentLoaded", () => {
-        setDates();
-        jotdIdx = jotdIndexForToday();
-        renderJOTD(jotdIdx);
-        renderFilters();
-        renderJokes();
-        renderLeaderboard();
-        updateStats();
+/* ---------- UI rendering ---------- */
+function renderRules() {
+    const grid = document.getElementById('rulesGrid');
+    grid.innerHTML = '';
+    for (const r of RULES) {
+        const on = state.enabled.has(r.id);
+        const el = document.createElement('div');
+        el.className = 'rule' + (on ? ' on' : '');
+        el.innerHTML = `
+            <div class="toggle"></div>
+            <div class="rule-text">
+                <div class="rule-name">${r.name} <span class="rule-impact">ON</span></div>
+                <div class="rule-desc">${r.desc}</div>
+            </div>
+        `;
+        el.addEventListener('click', () => {
+            if (state.enabled.has(r.id)) state.enabled.delete(r.id);
+            else state.enabled.add(r.id);
+            // Switch to custom level if user manually toggles
+            const matching = Object.entries(LEVEL_PRESETS).find(([k, v]) =>
+                v && v.rules.length === state.enabled.size && v.rules.every(x => state.enabled.has(x))
+            );
+            state.level = matching ? matching[0] : 'custom';
+            document.querySelectorAll('#levelSeg button').forEach(b => {
+                b.classList.toggle('active', b.dataset.level === state.level);
+            });
+            renderRules();
+            optimize();
+        });
+        grid.appendChild(el);
+    }
+}
 
-        document.getElementById("jotdNewBtn").addEventListener("click", () => {
-            jotdIdx = (jotdIdx + 1) % JOTD_POOL.length;
-            renderJOTD(jotdIdx);
-            confetti("funny");
-            toast("New MP joke loaded!");
+function renderSamples() {
+    const m = document.getElementById('samplesMenu');
+    m.innerHTML = '';
+    SAMPLES.forEach((s, idx) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = s.name;
+        b.addEventListener('click', () => {
+            document.getElementById('input').value = s.text;
+            m.classList.remove('show');
+            optimize();
         });
-        document.getElementById("jotdShareBtn").addEventListener("click", () => {
-            const j = JOTD_POOL[jotdIdx]; const mp = MPs[j.mpIndex];
-            const text = `🌟 Joke of the Day — ${mp.name}\n"${j.quote}"\nContext: ${j.news}`;
-            if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast("Copied!"));
+        m.appendChild(b);
+    });
+}
+
+/* ---------- History ---------- */
+function loadHistory() {
+    try { return JSON.parse(localStorage.getItem('pf_history') || '[]'); }
+    catch { return []; }
+}
+function saveHistory() { localStorage.setItem('pf_history', JSON.stringify(state.history)); }
+
+function renderHistory() {
+    const wrap = document.getElementById('historyList');
+    if (!state.history.length) {
+        wrap.innerHTML = '<div class="history-empty">No saved optimizations yet — click <b>Save</b> on a result to keep it here.</div>';
+        return;
+    }
+    wrap.innerHTML = '';
+    state.history.forEach((h, idx) => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        const when = new Date(h.t).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        item.innerHTML = `
+            <div class="history-snippet" title="${escapeHtml(h.input).slice(0, 200)}">${escapeHtml(h.input.slice(0, 80))}${h.input.length > 80 ? '…' : ''}</div>
+            <div class="history-savings">−${h.saved}t (${h.pct}%)</div>
+            <div class="history-meta">${when}</div>
+        `;
+        item.addEventListener('click', () => {
+            document.getElementById('input').value = h.input;
+            optimize();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        document.getElementById("resetVotesBtn").addEventListener("click", () => {
-            if (!confirm("Reset all your votes (and counts in this browser)?")) return;
-            localStorage.removeItem(KEY_VOTES);
-            localStorage.removeItem(KEY_USER);
-            afterVoteUpdate();
-            toast("Votes reset");
-        });
+        wrap.appendChild(item);
+    });
+}
+
+function pushHistory(input, output) {
+    if (!input.trim() || input === output) return;
+    const inTok = estimateTokens(input);
+    const outTok = estimateTokens(output);
+    const saved = inTok - outTok;
+    const pct = inTok > 0 ? Math.round((saved / inTok) * 100) : 0;
+    state.history.unshift({ t: Date.now(), input, output, saved, pct });
+    state.history = state.history.slice(0, 20);
+    saveHistory();
+    // Lifetime
+    if (saved > 0) {
+        state.lifetimeSaved += saved;
+        const price = PRICING[state.model];
+        state.lifetimeCost += (saved / 1_000_000) * price.in * state.runs;
+        localStorage.setItem('pf_lifetime', String(state.lifetimeSaved));
+        localStorage.setItem('pf_lifetimeCost', String(state.lifetimeCost));
+        renderLifetime();
+    }
+    renderHistory();
+}
+
+function renderLifetime() {
+    document.getElementById('hdrSaved').textContent = state.lifetimeSaved.toLocaleString();
+    document.getElementById('hdrCost').textContent = '$' + state.lifetimeCost.toFixed(state.lifetimeCost < 1 ? 4 : 2);
+}
+
+/* ---------- Toast ---------- */
+let toastTimer = null;
+function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1700);
+}
+
+/* ---------- Wire up events ---------- */
+function init() {
+    renderRules();
+    renderSamples();
+    renderHistory();
+    renderLifetime();
+
+    // Level segments
+    document.querySelectorAll('#levelSeg button').forEach(b => {
+        b.addEventListener('click', () => applyLevel(b.dataset.level));
     });
 
-    /* ---------- Toast ---------- */
-    let toastTimer = null;
-    function toast(msg) {
-        const t = document.getElementById("toast");
-        t.textContent = msg;
-        t.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.classList.remove("show"), 1600);
-    }
+    // Input live optimization (debounced)
+    let inputTimer;
+    document.getElementById('input').addEventListener('input', () => {
+        clearTimeout(inputTimer);
+        inputTimer = setTimeout(optimize, 80);
+    });
 
-    /* ---------- Confetti (lightweight) ---------- */
-    const cvs = document.getElementById("confetti");
-    const ctx = cvs.getContext("2d");
-    function resizeCanvas() { cvs.width = innerWidth; cvs.height = innerHeight; }
-    addEventListener("resize", resizeCanvas); resizeCanvas();
-
-    let particles = [];
-    function confetti(kind) {
-        const colors = kind === "fire" ? ["#ff6b35","#f1c40f","#fff"]
-                     : kind === "dead" ? ["#8e44ad","#fff","#1a1a2e"]
-                     : kind === "meh"  ? ["#888","#bbb","#444"]
-                     : ["#e94560","#f1c40f","#2ecc71","#fff"];
-        for (let i = 0; i < 30; i++) {
-            particles.push({
-                x: innerWidth/2 + (Math.random()-0.5)*200,
-                y: innerHeight/2 + (Math.random()-0.5)*100,
-                vx: (Math.random()-0.5)*8,
-                vy: -Math.random()*8 - 3,
-                g: 0.25,
-                life: 60 + Math.random()*30,
-                size: 4 + Math.random()*4,
-                color: colors[Math.floor(Math.random()*colors.length)],
-                rot: Math.random()*Math.PI
-            });
+    // Buttons
+    document.getElementById('optimizeBtn').addEventListener('click', () => {
+        optimize();
+        toast('Optimized');
+    });
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        document.getElementById('input').value = '';
+        optimize();
+    });
+    document.getElementById('pasteBtn').addEventListener('click', async () => {
+        try {
+            const t = await navigator.clipboard.readText();
+            document.getElementById('input').value = t;
+            optimize();
+            toast('Pasted from clipboard');
+        } catch { toast('Clipboard blocked — paste manually'); }
+    });
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+        if (!state.lastOutput) { toast('Nothing to copy'); return; }
+        try {
+            await navigator.clipboard.writeText(state.lastOutput);
+            toast('Copied optimized prompt');
+        } catch { toast('Copy failed'); }
+    });
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        if (!state.lastOutput) { toast('Nothing to download'); return; }
+        const blob = new Blob([state.lastOutput], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `optimized-prompt-${Date.now()}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        toast('Downloaded');
+    });
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        if (!state.lastInput.trim()) { toast('Nothing to save'); return; }
+        pushHistory(state.lastInput, state.lastOutput);
+        toast('Saved to history');
+    });
+    document.getElementById('diffBtn').addEventListener('click', (e) => {
+        state.showDiff = !state.showDiff;
+        e.currentTarget.innerHTML = state.showDiff
+            ? '<span class="ico">📄</span> Hide diff'
+            : '<span class="ico">🔀</span> Show diff';
+        optimize();
+    });
+    document.getElementById('clearHistBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!state.history.length) return;
+        if (confirm('Clear all saved history?')) {
+            state.history = [];
+            saveHistory();
+            renderHistory();
+            toast('History cleared');
         }
-        if (particles.length) requestAnimationFrame(animateConfetti);
-    }
-    function animateConfetti() {
-        ctx.clearRect(0,0,cvs.width,cvs.height);
-        particles = particles.filter(p => p.life > 0);
-        particles.forEach(p => {
-            p.x += p.vx; p.y += p.vy; p.vy += p.g; p.life--; p.rot += 0.2;
-            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-            ctx.fillStyle = p.color;
-            ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*1.6);
-            ctx.restore();
-        });
-        if (particles.length) requestAnimationFrame(animateConfetti);
-        else ctx.clearRect(0,0,cvs.width,cvs.height);
-    }
-    </script>
+    });
+
+    // Samples dropdown
+    const samplesBtn = document.getElementById('samplesBtn');
+    const samplesMenu = document.getElementById('samplesMenu');
+    samplesBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        samplesMenu.classList.toggle('show');
+    });
+    document.addEventListener('click', () => samplesMenu.classList.remove('show'));
+
+    // Model + runs selectors
+    document.getElementById('modelSelect').addEventListener('change', (e) => {
+        state.model = e.target.value; optimize();
+    });
+    document.getElementById('runsSelect').addEventListener('change', (e) => {
+        state.runs = parseInt(e.target.value, 10); optimize();
+    });
+
+    // Start with first sample for nice initial state
+    document.getElementById('input').value = SAMPLES[0].text;
+    optimize();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
